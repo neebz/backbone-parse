@@ -1,12 +1,9 @@
     
-
-
-
-Item = Backbone.Model.extend({_parse_class_name: "GameScore"});
+Item = Backbone.Model.extend({_parse_class_name: "Item"});
 
 ItemCollection = Backbone.Collection.extend({
     model: Item,
-    _parse_class_name: "GameScore"
+    _parse_class_name: "Item"
 });
 
 ItemListView = Backbone.View.extend({
@@ -43,14 +40,15 @@ $(function() {
             var view = new ItemListView({collection: items});
             view.render();
             $("#showIt").html(view.el);
-        }
+        },
+        query: {"in_stock":true}
     });
     
-    var item = new Item({id: "86YC9d8K9v", name:"sayonee"});
-    item.fetch({
-        success: function() {
-            console.log(item.toJSON());
-        }
-    });
+    // var item = new Item({id: "86YC9d8K9v", name:"sayonee"});
+    // item.fetch({
+    //     success: function() {
+    //         console.log(item.toJSON());
+    //     }
+    // });
     
 });
