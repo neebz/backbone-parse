@@ -8,8 +8,8 @@ backbone-parse overrides the Backbone.Sync method to automatically persist your 
 
 Download backbone-parse.js and include it in your application after backbone.js e.g.
 ```html
-<script src="backbone.js"></script>
-<script src="backbone-parse.js"></script>
+<script src="backbone-min.js"></script>
+<script src="backbone-parse-min.js"></script>
 ```
 
 
