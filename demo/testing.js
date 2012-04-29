@@ -49,7 +49,7 @@ $(function() {
     var item = new Item({id: "86YC9d8K9v", name:"sayonee"});
     item.fetch({
         success: function() {
-            console.log(item);
+            console.log(item.toJSON());
         }
     });
     

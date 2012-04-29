@@ -1,20 +1,13 @@
 (function() {
 
-	var original_parse =Backbone.Model.prototype.parse; 
+	var original_toJSON =Backbone.Model.prototype.toJSON; 
     var ParseModel = {
-        parse : function(options) {
+        toJSON : function(options) {
             _parse_class_name = this.__proto__._parse_class_name;
-            data = original_parse.call(this,options);
-
-            if (_parse_class_name && data.results) {
-                //do your thing
-                return data.results;
-            }
-            else {
-            	//return original
-                return data;
-            }
-            
+            data = original_toJSON.call(this,options);
+            delete data.createdAt
+            delete data.updatedAt
+            return data
         }
     };
     _.extend(Backbone.Model.prototype, ParseModel);
