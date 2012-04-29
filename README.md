@@ -66,7 +66,7 @@ items.fetch({
 });
 ```
 This will fetch all the items which are in stock.
-For details about what constraints you can pass, read this: You can get the details of it at: https://parse.com/docs/rest#queries
+For details about what constraints you can pass, read: https://parse.com/docs/rest#queries
 
 Feedback welcome.
 
