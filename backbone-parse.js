@@ -1,5 +1,19 @@
+/********** PARSE API ACCESS CREDENTIALS **********/
+
+var application_id = "CkWCHMSOgyqoNKoIc5hu09uvdZcJ9rpHJD4iwhxI";
+var rest_api_key = "H5SIwarTRXqd07C0OIZPbcRTYTNLKsjFAJt5PrFY";
+var api_version = "1";
+
+/******************* END *************************/
+
 (function() {
 
+    /*  
+        Replace the toJSON method of Backbone.Model with our version
+        
+        This method removes the "createdAt" and "updatedAt" keys from the JSON version 
+        because otherwise the PUT requests to Parse fails.
+     */
 	var original_toJSON =Backbone.Model.prototype.toJSON; 
     var ParseModel = {
         toJSON : function(options) {
@@ -14,6 +28,12 @@
     };
     _.extend(Backbone.Model.prototype, ParseModel);
 
+    /*  
+        Replace the parse method of Backbone.Collection
+
+        Backbone Collection expects to get a JSON array when fetching.
+        Parse returns a JSON object with key "results" and value being the array.
+    */
     original_parse =Backbone.Collection.prototype.parse; 
     var ParseCollection = {
         parse : function(options) {
@@ -31,7 +51,9 @@
     };
     _.extend(Backbone.Collection.prototype, ParseCollection);
 
-
+    /*  
+        Method to HTTP Type Map 
+    */
 	var methodMap = {
         'create': 'POST',
         'update': 'PUT',
@@ -39,47 +61,36 @@
         'read':   'GET'
     };
 
+    /* 
+        Override the default Backbone.sync 
+    */
+    var ajaxSync = Backbone.Sync;
 	Backbone.sync = function(method, model, options) {
-		var object_id;
-		var class_name;
-		if (model.models) { //is a collection
+		
 
-			object_id = ""
-			class_name = model.__proto__._parse_class_name;
-		}
-		else { //is a single model
-			object_id = model.id
-			class_name = model.__proto__._parse_class_name;
-		}
+        var object_id = model.models? "" : model.id; //get id if it is not a Backbone Collection
 
+
+        var class_name = model.__proto__._parse_class_name;
+        if (!class_name) {
+            return ajaxSync(method, model, options) //It's a not a Parse-backed model, use default sync
+        }
+
+        // create request parameteres
 		var type = methodMap[method];
 	    options || (options = {});
-
-		var api_version = "1";
 		var base_url = "https://api.parse.com/" + api_version + "/classes";
-
-		var application_id = "CkWCHMSOgyqoNKoIc5hu09uvdZcJ9rpHJD4iwhxI";
-		var api_key = "H5SIwarTRXqd07C0OIZPbcRTYTNLKsjFAJt5PrFY";
-
-
-		var url = ""
-
-		switch(method) {
-			case "create": 
-				url = base_url + "/" + class_name + "/";
-				break;
-			default:
-				url = base_url + "/" + class_name + "/" + object_id;
-				break;
-
-		}
-
+		var url = base_url + "/" + class_name + "/";
+        if (method != "create") {
+            url = url + object_id;
+        }
+	   
+        //Setup data
 		var data ;
-		// Ensure that we have the appropriate request data.
 	    if (!options.data && model && (method == 'create' || method == 'update')) {
 	      data = JSON.stringify(model.toJSON());
 	    }
-        else if (options.query && method == "read") {
+        else if (options.query && method == "read") { //query for Parse.com objects
             data = encodeURI("where=" + JSON.stringify(options.query));
         }   
 
@@ -94,9 +105,10 @@
             url: url,
             type: type,
 
+            //authentication
             headers: {
                 "X-Parse-Application-Id": application_id,
-                "X-Parse-REST-API-Key": api_key
+                "X-Parse-REST-API-Key": rest_api_key
             }
         };
 
