@@ -14,16 +14,13 @@ Download backbone-parse.js and include it in your application after backbone.js 
 
 
 ### Step 2:
-Open backbone-parse.js and set your credentials at the top:
+Open backbone-parse.js and replace following at the top with your Parse credentials:
 
 ```javascript
-/********** PARSE API ACCESS CREDENTIALS **********/
-
 var application_id = "CkWCHMSOgyqoNKoIc5hu09uvdZcJ9rpHJD4iwhxI";
 var rest_api_key = "H5SIwarTRXqd07C0OIZPbcRTYTNLKsjFAJt5PrFY";
 var api_version = "1";
 
-/******************* END *************************/
 ```
 
 
