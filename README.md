@@ -67,9 +67,17 @@ For details about what constraints you can pass, read: https://parse.com/docs/re
 
 Feedback welcome.
 
+
 ## TODO:
 
 - tests(!)
 - extend Backbone.Model to tackle Parse User objects
+
+
+## License
+
+Distributed under [MIT license](http://mutedsolutions.mit-license.org/).
+
+-------
 
 *inspired by: http://houseofbilz.com/archives/2011/11/07/making-backbone-js-work-with-parse-com/
