@@ -1,0 +1,7 @@
+{
+  "devDependencies": {
+    "chai": "^2.1.0",
+    "gulp": "^3.8.11",
+    "gulp-jshint": "^1.2.5"
+  }
+}
