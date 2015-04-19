@@ -64,7 +64,7 @@ var api_version = "1";
     /* 
         Override the default Backbone.sync 
     */
-    var ajaxSync = Backbone.Sync;
+    var ajaxSync = Backbone.sync;
 	Backbone.sync = function(method, model, options) {
 		
 
